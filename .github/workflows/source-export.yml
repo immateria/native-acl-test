@@ -1,0 +1,28 @@
+name: source-export
+
+on:
+  push:
+    branches:
+      - agent/acl-map-fixes
+    paths:
+      - .github/workflows/source-export.yml
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Archive exact source tree
+        shell: bash
+        run: git archive --format=zip --prefix=native-acl-test/ -o native-acl-test-source.zip "$GITHUB_SHA"
+      - name: Upload source archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-acl-test-source-${{ github.sha }}
+          path: native-acl-test-source.zip
+          if-no-files-found: error
+          retention-days: 1
