@@ -27,10 +27,14 @@ def main(argv=None):
     writer = behavior.RowWriter(args.output, args.platform, args.domain, expected)
     if args.platform == "darwin":
         from . import darwin_behavior as implementation
+        if args.local_accounts:
+            raise ValueError("local account probes are Windows-only")
+        native_options = {}
     else:
         from . import windows_behavior as implementation
+        native_options = {"local_accounts": args.local_accounts}
     implementation.run_domain(args.domain, args.depth, args.workspace, writer,
-                              args.privileged, local_accounts=args.local_accounts)
+                              args.privileged, **native_options)
     writer.finish(dict(python=sys.version, system=host_platform.system(), machine=host_platform.machine()))
     return 0
 

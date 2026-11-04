@@ -43,6 +43,11 @@ def run_all(platform, profile, work, out, privileged=False, timeout=900,
             if result.get("returncode") != 0 or result.get("timed_out"):
                 raise ValueError(f"worker failed: returncode={result.get('returncode')} timed_out={result.get('timed_out')}")
             summaries[domain] = behavior.validate_jsonl(destination, platform, domain, expected)
+            errors = summaries[domain]["counts"]["error"]
+            if errors:
+                failures.append(f"{domain}: {errors} behavior row(s) reported error")
+            if domain == "authz" and not summaries[domain]["counts"]["ok"]:
+                failures.append("authz: no evaluated access checks")
         except (OSError, ValueError, KeyError) as exc:
             failures.append(f"{domain}: {exc}")
     core.write_json(behavior_root / "summary.json", dict(platform=platform, depth=depth,

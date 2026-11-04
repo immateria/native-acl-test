@@ -68,6 +68,11 @@ def validate_behavior(root, platform, lane):
                     "catalog_sha256": details["catalog_sha256"],
                 }
                 result["rows"] += len(expected)
+                row_errors = details["counts"]["error"]
+                if row_errors:
+                    errors.append(f"{domain}: {row_errors} behavior row(s) reported error")
+                if domain == "authz" and not details["counts"]["ok"]:
+                    errors.append("authz: no evaluated access checks")
                 if summary.get("domains", {}).get(domain) != details:
                     errors.append(f"{domain}: aggregate summary differs from JSONL")
             except (OSError, ValueError, KeyError, TypeError) as exc:

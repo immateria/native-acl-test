@@ -16,6 +16,7 @@ import traceback
 import uuid
 
 from . import behavior_catalog, core, wire
+from . import map_controls
 from .native import NativeFailure, SkipCase
 
 OTHER_SID = "S-1-5-21-3981726199-1872936101-2918176103-424242"
@@ -347,6 +348,10 @@ def _emit_case(writer, oracle, workspace, key, function):
         details = function(root)
         if not isinstance(details, dict):
             details = {"value": details}
+        if details.get("measurement_stage") in ("conversion-only", "descriptor-rejected", "api-rejected"):
+            status = "observe"  # no authorization decision was obtained
+        if details.get("control_failures"):
+            status = "error"  # keep the actual API replies available for diagnosis
     except SkipCase as exc:
         status, details = "skip", {"reason": str(exc)}
     except (NativeFailure, OSError) as exc:
@@ -514,9 +519,14 @@ def _descriptor_storage(oracle, key, root, privilege_state=None):
             "native_valid": _capture(lambda: _native_descriptor_valid(oracle, data)),
             "privilege_setup": privilege_state or {},
         }
-        result["write"] = _capture(lambda: oracle.write(path, data, information, inheritance))
-        read_information = 7 | (information if information & 0x1F8 else 0)
-        result["read"] = _descriptor_snapshot(oracle, path, read_information)
+        with map_controls.fixture_guard(oracle, path, _recovery_descriptor(oracle)) as handle:
+            result["write"] = _capture(lambda: oracle.write(path, data, information, inheritance))
+            read_information = 7 | (information if information & 0x1F8 else 0)
+            result["read"] = _descriptor_snapshot(oracle, path, read_information)
+            # Compare the same owner/group/DACL selection on both routes. Do not
+            # request SACL privileges on the independent recovery handle.
+            result["fresh_read_7"] = _descriptor_snapshot(oracle, path, 7)
+            result["held_read_7"] = _capture(lambda: oracle.read_handle(handle, 7))
         return result
 
     _, obj, placement, ace_type, revision, flags = dimensions
@@ -612,12 +622,13 @@ def _selector_combinations(oracle, key, root, privilege_state=None):
         if operation == "query":
             details["attempts"][variant] = oracle.query_attempt(path, selector, desired)
         else:
-            details["attempts"][variant] = _capture(
-                lambda path=path, desired=desired: oracle.set_attempt(path, data, selector, desired)
-            )
-            details["attempts"][variant]["readback"] = _descriptor_snapshot(
-                oracle, path, 7 | (selector_components(selector) & 0x1F8)
-            )
+            with map_controls.fixture_guard(oracle, path, _recovery_descriptor(oracle)) as handle:
+                attempt = _capture(lambda: oracle.set_attempt(path, data, selector, desired))
+                details["attempts"][variant] = attempt
+                attempt["readback"] = _descriptor_snapshot(
+                    oracle, path, 7 | (selector_components(selector) & 0x1F8))
+                attempt["fresh_read_7"] = _descriptor_snapshot(oracle, path, 7)
+                attempt["held_read_7"] = _capture(lambda: oracle.read_handle(handle, 7))
     return details
 
 
@@ -658,9 +669,9 @@ def _actual_operation(oracle, obj, right_name, path):
             oracle.write(path, data, 4, "Protect")
             return {"operation": "write-dac", "descriptor": oracle.read(path, 7).hex()}
     else:
+        # The caller creates this child before applying policy. A denied stat or
+        # speculative create here would measure setup rather than list/traverse.
         child = path / "child"
-        if not child.exists():
-            child.write_bytes(b"child")
         if right_name in ("read-data", "generic-read"):
             return {"operation": "list", "entries": sorted(os.listdir(path))}
         if right_name in ("write-data", "generic-write"):
@@ -714,7 +725,12 @@ def _access_evaluation(oracle, key, root):
         try:
             oracle.write_handle(recovery_handle, data, 4, "Protect")
             result["installed"] = _descriptor_snapshot(oracle, path, 7)
+            result["installed_held"] = _capture(lambda: oracle.read_handle(recovery_handle, 7))
+            if result["installed_held"]["ok"]:
+                actual = bytes.fromhex(result["installed_held"]["value"]["hex"])
+                result["access_check_installed"] = _capture(lambda: oracle.access_check(actual, desired))
             result["create_file"] = oracle.try_open(path, desired)
+            result["open_controls"] = map_controls.open_controls(oracle, path, desired)
             result["operation"] = _capture(lambda: _actual_operation(oracle, obj, right_name, path))
             result["after"] = _descriptor_snapshot(oracle, path, 7)
         finally:
@@ -1198,7 +1214,8 @@ def _descriptor_with_entries(owner_sid, entries, *, sacl=None, control=0x8004):
 def _token_privilege(oracle, key, root, privileged=False):
     from .windows_accounts import WindowsTokenLab
 
-    category, name = token_privilege_dimensions(key)
+    dimensions = token_privilege_dimensions(key)
+    category, name = dimensions[:2]
     lab = WindowsTokenLab()
     details = {"category": category, "case": name, "privileged_lane": bool(privileged)}
     with lab.current_token() as current:
@@ -1279,7 +1296,7 @@ def _token_privilege(oracle, key, root, privileged=False):
             return details
 
         if category == "privilege":
-            _, privilege, state = token_privilege_dimensions(key)
+            _, privilege, state = dimensions
             assigned = next((entry for entry in current_snapshot["privileges"]
                              if entry.get("name") == privilege), None)
             details["privilege"] = privilege
@@ -1295,6 +1312,7 @@ def _token_privilege(oracle, key, root, privileged=False):
                 with lab.duplicate(current) as duplicate:
                     details["adjust"] = _capture(
                         lambda: lab.adjust_privilege(duplicate, privilege, state))
+                    details["after"] = lab.token_snapshot(duplicate)
             return details
 
         if name in ("backup-query", "backup-set", "restore-owner", "restore-dacl",
@@ -1372,8 +1390,9 @@ def _authz_descriptor(oracle, plan):
         ace = representative_ace(11, 0, WORLD_SID, 0x001F01FF)
         return wire.descriptor(dacl=wire.acl([ace]), control=0x8004)
     if name == "opaque-callback-payload":
+        payload = b"opaque-callback\x00\xff"
         ace = wire.ace(9, 0, 0x001F01FF, wire.sid_bytes(WORLD_SID),
-                       payload=b"opaque-callback\x00\xff")
+                       payload=payload + bytes(-len(payload) % 4))
         return wire.descriptor(dacl=wire.acl([ace]))
     if name == "principal-self":
         return _descriptor_with_entries(None, [
@@ -1412,17 +1431,22 @@ def _authz(oracle, key, root):
     }
     if name == "malformed-condition":
         details["conversion"] = _capture(lambda: _authz_descriptor(oracle, plan))
+        details["measurement_stage"] = "conversion-only"
         return details
 
     descriptor_result = _capture(lambda: _authz_descriptor(oracle, plan))
     details["descriptor_build"] = descriptor_result
     if not descriptor_result["ok"]:
+        details["measurement_stage"] = "descriptor-rejected"
         return details
     encoded = descriptor_result["value"]
     if isinstance(encoded, dict) and encoded.get("encoding") == "hex":
         descriptor = bytes.fromhex(encoded["hex"])
     else:
         raise ValueError("Authz descriptor evidence did not retain raw bytes")
+    details["input_descriptor_hex"] = descriptor.hex()
+    # Use an unrelated synthetic owner to avoid an implicit grant to the caller.
+    descriptor = map_controls.with_owner(descriptor, OTHER_SID)
     details["descriptor"] = wire.parse_descriptor(descriptor)
     details["descriptor_hex"] = descriptor.hex()
     details["descriptor_sddl"] = _capture(lambda: oracle.to_sddl(descriptor, 0x1F))
@@ -1438,6 +1462,9 @@ def _authz(oracle, key, root):
     manager_options = dict(callback_result=callback_result,
                            central_policies=central_policies)
     with authz.context(**manager_options) as context:
+        if key == "authz:allow-true":  # in smoke, full and map; once per lane
+            details["controls"], details["control_failures"] = map_controls.authz_controls(
+                authz, context, OTHER_SID, _capture)
         claims = plan.get("claims", {})
         if claims.get("user"):
             try:
@@ -1474,24 +1501,24 @@ def _authz(oracle, key, root):
             object_types = [(0, OBJECT_GUID), (1, INHERITED_GUID)]
         optional = b"native-acl-optional\x00" if name.startswith("callback") else None
         cache = name == "cached-access-check"
-        access = _capture(lambda: authz.access_check(
-            context, descriptor, desired, principal_self=principal_self,
-            object_types=object_types, optional_arguments=optional, cache=cache))
-        details["access_check"] = access
-        details["callback_events"] = authz.callback_events
-        if cache and access["ok"]:
-            # _json_safe cannot preserve live handles. Repeat directly and keep
-            # the handle scoped until AuthzCachedAccessCheck and AuthzFreeHandle.
+        def check_once():
+            # One call owns one cache; never serialize a handle or its backing arrays.
             result, cached, keepalive = authz.access_check(
                 context, descriptor, desired, principal_self=principal_self,
-                object_types=object_types, optional_arguments=optional, cache=True)
+                object_types=object_types, optional_arguments=optional, cache=cache)
             try:
-                details["initial_cached_result"] = result
-                details["cached_result"] = _capture(
-                    lambda: authz.cached_access_check(cached, desired,
-                                                      principal_self=principal_self))
+                if cache:
+                    details["initial_cached_result"] = result
+                    details["cached_result"] = _capture(
+                        lambda: authz.cached_access_check(cached, desired,
+                                                          principal_self=principal_self))
+                return result
             finally:
-                authz.free_cached(cached)
+                if cached:
+                    authz.free_cached(cached)
+        details["access_check"] = _capture(check_once)
+        details["measurement_stage"] = "evaluated" if details["access_check"]["ok"] else "api-rejected"
+        details["callback_events"] = authz.callback_events
 
     if name in ("conditional-binary-roundtrip", "resource-claim-roundtrip"):
         details["roundtrip"] = _capture(

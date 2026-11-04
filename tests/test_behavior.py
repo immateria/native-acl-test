@@ -98,8 +98,8 @@ class BehaviorEvidenceTests(unittest.TestCase):
             writer.emit("api:one", "error", {"exception": "boom"})
             summary = writer.finish()
             self.assertEqual(summary["status"], "error")
-            with self.assertRaisesRegex(ValueError, "summary contradicts rows"):
-                validate_jsonl(path, "darwin", "api", ["api:one"])
+            details = validate_jsonl(path, "darwin", "api", ["api:one"])
+            self.assertEqual(details["counts"]["error"], 1)
 
 
 class BehaviorRunnerTests(unittest.TestCase):
@@ -610,8 +610,10 @@ class WindowsBehaviorExtendedPlanningTests(unittest.TestCase):
             (work / "scratch").mkdir(parents=True)
             out.mkdir()
             fake_result = {"returncode": 0, "timed_out": False}
+            fake_summary = {"expected": 0, "completed": 0, "missing": [],
+                            "counts": {"error": 0, "observe": 0, "ok": 0, "skip": 0}}
             with mock.patch.object(behavior_module.core, "command", return_value=fake_result), \
-                    mock.patch.object(behavior_module.behavior, "validate_jsonl", return_value={}) as validate:
+                    mock.patch.object(behavior_module.behavior, "validate_jsonl", return_value=fake_summary) as validate:
                 behavior_module.run_all("windows", "map", work, out,
                                         domains=("lifecycle",), timeout=1)
             self.assertEqual(validate.call_count, 1)

@@ -81,38 +81,53 @@ class RowWriter:
 
 
 def validate_jsonl(path, platform, domain, expected):
+    """Validate structure independently of whether recorded operations succeeded.
+
+    Keep only keys, counters and one row in memory; map files exceed 190 MiB.
+    Consumers are responsible for failing qualification on counts['error'].
+    """
     expected = tuple(expected)
-    rows = load_jsonl(path)
-    if not rows:
-        raise ValueError("behavior output is empty")
-    summaries = [row for row in rows if row.get("key") == "summary"]
-    if len(summaries) != 1 or rows[-1] is not summaries[0]:
-        raise ValueError("behavior summary must exist exactly once and be final")
-    body = rows[:-1]
-    keys = []
-    counts = {status: 0 for status in STATUSES}
-    for number, row in enumerate(rows, 1):
-        if row.get("schema") != SCHEMA or row.get("platform") != platform or row.get("domain") != domain:
-            raise ValueError(f"behavior identity mismatch at row {number}")
-        if not isinstance(row.get("details"), dict):
-            raise ValueError(f"behavior details missing at row {number}")
-        if row is summaries[0]:
-            continue
-        if row.get("status") not in STATUSES or not isinstance(row.get("key"), str):
-            raise ValueError(f"invalid behavior row at {number}")
-        keys.append(row["key"])
-        counts[row["status"]] += 1
-    if len(keys) != len(set(keys)):
-        raise ValueError("duplicate behavior keys")
-    if set(keys) != set(expected):
-        missing = sorted(set(expected) - set(keys))
-        unexpected = sorted(set(keys) - set(expected))
-        raise ValueError(f"behavior catalog mismatch: missing={missing[:8]} unexpected={unexpected[:8]}")
-    summary = summaries[0]
-    details = summary["details"]
-    if (summary.get("status") != "ok" or details.get("expected") != len(expected)
-            or details.get("completed") != len(expected) or details.get("missing") != []
-            or details.get("catalog_sha256") != catalog_digest(expected)
-            or details.get("counts") != counts):
-        raise ValueError("behavior summary contradicts rows")
+    expected_set = set(expected)
+    if len(expected) != len(expected_set):
+        raise ValueError('duplicate expected behavior keys')
+    path = pathlib.Path(path)
+    if not path.is_file():
+        raise ValueError('behavior output is empty')
+    seen, counts, summary = set(), dict.fromkeys(STATUSES, 0), None
+    number = 0
+    with path.open(encoding='utf-8') as stream:
+        for number, line in enumerate(stream, 1):
+            row = json.loads(line)
+            if not isinstance(row, dict):
+                raise ValueError(f'{path}:{number}: row is not an object')
+            if summary is not None:
+                raise ValueError('behavior summary must exist exactly once and be final')
+            if (row.get('schema'), row.get('platform'), row.get('domain')) != (SCHEMA, platform, domain):
+                raise ValueError(f'behavior identity mismatch at row {number}')
+            if not isinstance(row.get('details'), dict):
+                raise ValueError(f'behavior details missing at row {number}')
+            key, status = row.get('key'), row.get('status')
+            if key == 'summary':
+                summary = row
+                continue
+            if not isinstance(key, str) or status not in STATUSES:
+                raise ValueError(f'invalid behavior row at {number}')
+            if key in seen:
+                raise ValueError('duplicate behavior keys')
+            if key not in expected_set:
+                raise ValueError(f'behavior catalog mismatch: unexpected key {key}')
+            seen.add(key)
+            counts[status] += 1
+    if not number:
+        raise ValueError('behavior output is empty')
+    if summary is None:
+        raise ValueError('behavior summary must exist exactly once and be final')
+    if seen != expected_set:
+        raise ValueError(f'behavior catalog mismatch: missing={sorted(expected_set-seen)[:8]}')
+    details = summary['details']
+    if (summary.get('status') != ('error' if counts['error'] else 'ok')
+            or details.get('expected') != len(expected) or details.get('completed') != len(seen)
+            or details.get('missing') != [] or details.get('counts') != counts
+            or details.get('catalog_sha256') != catalog_digest(expected)):
+        raise ValueError('behavior summary contradicts rows')
     return details
