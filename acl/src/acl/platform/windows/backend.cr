@@ -1,5 +1,6 @@
 require "string/utf16"
 require "./open_access"
+require "./path_policy"
 
 module ACL::Platform::Windows
   extend self
@@ -160,7 +161,8 @@ module ACL::Platform::Windows
 
   private def with_file(path : Path | String, access : OpenAccess, follow_symlinks : Bool, &)
     label = path.to_s
-    wide = wide_string(label, "path")
+    native_path = PathPolicy.native(label)
+    wide = wide_string(native_path, "path")
     flags = BACKUP_SEMANTICS
     flags |= OPEN_REPARSE_POINT unless follow_symlinks
     handle = access.open(label) do |desired|

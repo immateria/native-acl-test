@@ -478,7 +478,7 @@ static void map_selector(const WCHAR *root, const char *object_name, BOOL direct
                          const Selector *selector, BOOL query,
                          unsigned long *attempt_counter) {
     DWORD sdk_access = 0;
-    Variant variants[4];
+    Variant variants[6];
     size_t count = 0;
     size_t index;
     const char *operation = query ? "query" : "set";
@@ -492,6 +492,8 @@ static void map_selector(const WCHAR *root, const char *object_name, BOOL direct
     if ((sdk_access & READ_CONTROL) != 0U) {
         count = add_variant(variants, count, "minus_read_control", sdk_access & ~READ_CONTROL);
     }
+    count = add_variant(variants, count, "plus_synchronize", sdk_access | SYNCHRONIZE);
+    count = add_variant(variants, count, "maximum_allowed", MAXIMUM_ALLOWED);
     for (index = 0; index < count; ++index) {
         *attempt_counter += 1UL;
         emit_selector_attempt(root, object_name, directory, selector, operation,
@@ -529,6 +531,16 @@ int wmain(int argc, WCHAR **argv) {
         {"access_filter", ACCESS_FILTER_SECURITY_INFORMATION},
         {"basic", OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION},
         {"audit_label", SACL_SECURITY_INFORMATION | LABEL_SECURITY_INFORMATION},
+        {"protected_dacl", DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION},
+        {"unprotected_dacl", DACL_SECURITY_INFORMATION | UNPROTECTED_DACL_SECURITY_INFORMATION},
+        {"protected_sacl", SACL_SECURITY_INFORMATION | PROTECTED_SACL_SECURITY_INFORMATION},
+        {"unprotected_sacl", SACL_SECURITY_INFORMATION | UNPROTECTED_SACL_SECURITY_INFORMATION},
+        {"conflicting_dacl_protection", DACL_SECURITY_INFORMATION |
+                                         PROTECTED_DACL_SECURITY_INFORMATION |
+                                         UNPROTECTED_DACL_SECURITY_INFORMATION},
+        {"conflicting_sacl_protection", SACL_SECURITY_INFORMATION |
+                                         PROTECTED_SACL_SECURITY_INFORMATION |
+                                         UNPROTECTED_SACL_SECURITY_INFORMATION},
         {"all_defined", OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION |
                         DACL_SECURITY_INFORMATION | SACL_SECURITY_INFORMATION |
                         LABEL_SECURITY_INFORMATION | ATTRIBUTE_SECURITY_INFORMATION |

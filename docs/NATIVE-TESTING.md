@@ -1,6 +1,6 @@
-# Running the native suites — checkpoint 5
+# Running the native suites — checkpoint 7
 
-A self-contained verification kit for the **`acl` 0.0.5 source in this checkpoint**. It contains the source under test, a compiled-on-your-machine Crystal bridge, independent Python/ctypes native API oracles, C SDK probes, process-isolated cases, and automatic evidence collection. No additional ZIP from the earlier conversation is required.
+A self-contained verification kit for the **`acl` 0.0.6 source in this checkpoint**. It contains the source under test, a compiled-on-your-machine Crystal bridge, independent Python/ctypes native API oracles, C SDK probes, process-isolated cases, and automatic evidence collection. No additional ZIP from the earlier conversation is required.
 
 **Default full matrix: 248 macOS cases + 357 Windows cases = 605 individually named cases.** The opt-in Windows local-account lab adds 36 cases, bringing an expanded Windows run to 393 and the combined catalog to 641. Each native platform also runs 1,000 generated valid binary round-trips and 3,000 deliberately malformed structural inputs inside its two model cases. The ordinary checkpoint specs run twice with different ordering seeds and once in release mode. These counts describe selected work, not a claim that every native case has passed.
 
@@ -175,13 +175,29 @@ bash ./run-macos.sh --seed 917263 --crystal /path/to/crystal --only 'darwin.inhe
 
 The default case deadline is 180 seconds; build/spec stages have a 600-second deadline. These are safety ceilings, not runtime estimates. Default generated-model input count is 1,000 per format; `--iterations` controls it, capped at 10,000 for model input generation. `stress` uses at least 10,000 iterations. Raw malformed binaries are sent only to bounded model decoders, never to unbounded native ACL importers.
 
+## Exhaustive hosted behavior mapping
+
+The manual `map` profile produces stable semantic JSONL rather than only named qualification cases:
+
+```sh
+gh workflow run native-acl.yml --ref main -f lane=all -f profile=map
+
+gh workflow run native-acl.yml --ref main -f lane=windows-lab -f profile=map
+```
+
+The ordinary run covers macOS arm64/x64 and Windows Server 2025/2022 elevated/filtered tokens. The lab run separately creates disposable local users/groups. Generated case-sensitive APFS/HFS+ images, loopback SMB, and ReFS VHDX are attempted only inside runner-owned scratch space and have explicit cleanup evidence. Unsupported facilities remain visible observations.
+
+Current map sizes are **2,173 Darwin rows**, **52,989 ordinary Windows rows**, and **53,295 Windows rows with the real-account domain**. See `docs/BEHAVIOR-MAPPING.md` before interpreting these rows as pass/fail claims.
+
 ## 8. What this kit does not establish
 
 The default matrix does not establish cross-account behavior. The opt-in local-account lab does test local cross-user/group authorization, but it does not implement domain/AD authorization, a conditional-expression evaluator, resource-claim policy evaluation, arbitrary reparse-tag behavior, cross-model ACL translation, atomic read-modify-write, adversarial concurrent pathname replacement, arbitrary fault injection, or a complete Windows backup/restore contract. Object/callback ACE storage tests are not proof of their authorization meaning on every resource manager. A filtered SACL query is not a full SACL backup. Remote servers and other filesystem types require their own runs. Other users' files are deliberately not examined.
 
 ## 9. Validation performed before delivery
 
-See the verification transcript distributed with this checkpoint. Linux host tests and portable models were executed; the bridge was object-generated for native macOS/Windows x86-64 and ARM64 on Crystal 1.21.1 and 1.18.0. **Native OS execution, native SDK linking/probes, and PowerShell execution have not been performed here.** Those are precisely the evidence this kit is designed to collect from your machines.
+Hosted run `41800279553` executed the checkpoint-5 source on macOS arm64 and two Windows Server 2025 tokens. macOS completed all 248 selected cases without a shard failure. Windows completed the native SDK mapper and exposed the two defects corrected in checkpoint 6: path writes that needed `READ_CONTROL`, and a relative path whose resolved spelling exceeded `MAX_PATH`.
+
+The checkpoint-6 production changes were then verified on Linux with both supported Crystal compiler lanes, portable models, Python orchestration tests, and Windows x86-64/ARM64 object generation. **Checkpoint 7 retains that native acceptance boundary and adds behavior maps that also require hosted execution before those two runtime regressions are closed.** The focused commands are in `docs/checkpoint-6.md`; native local-account authorization remains a separate `windows-lab` dispatch.
 
 ## Native Windows selector/access map
 

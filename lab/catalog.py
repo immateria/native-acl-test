@@ -17,7 +17,7 @@ PATH_KINDS = ['ascii','spaces','unicode','decomposed','emoji','newline','long_co
 
 def cases(platform, profile='full', seed=20261103, iterations=1000, local_accounts=False):
     if platform not in ('darwin','windows'): raise ValueError('unsupported platform')
-    if profile not in ('smoke','full','stress'): raise ValueError('unknown profile')
+    if profile not in ('smoke','full','map','stress'): raise ValueError('unknown profile')
     result=[]
     def add(group, case_name, smoke=False, privileged=False, **p):
         result.append(dict(id=platform+'.'+group+'.'+case_name, platform=platform, group=group,
@@ -124,7 +124,7 @@ def cases(platform, profile='full', seed=20261103, iterations=1000, local_accoun
                 result[-1]['local_accounts'] = True
     for name in ['read_handles','read_write','invalid_handles','serialize']:
         add('stress',name,smoke=False)
-    if profile=='smoke': result=[r for r in result if r['smoke']]
+    if profile in ('smoke','map'): result=[r for r in result if r['smoke']]
     if profile=='stress':
         for r in result: r['iterations']=max(iterations,10000)
     return result

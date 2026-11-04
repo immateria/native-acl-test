@@ -1,12 +1,12 @@
 # acl — native filesystem ACL research shard
 
-Version 0.0.5; Crystal >= 1.18, < 2. No runtime shard dependencies.
+Version 0.0.6; Crystal >= 1.18, < 2. No runtime shard dependencies.
 
 | API | Model on any host | Native operations | Verified here |
 |---|---|---|---|
 | `ACL::POSIX` | Yes | Linux/libacl | Runtime and filesystem tests |
 | `ACL::Darwin` | Yes | macOS/libc | Previous native APFS return; captured-byte specs |
-| `ACL::Windows` | Yes | Windows/Advapi32 | Previous NTFS evidence; selector/access mapping stage awaits returned native evidence |
+| `ACL::Windows` | Yes | Windows/Advapi32 | Server 2025/NTFS return analyzed; checkpoint-6 fixes await native rerun |
 | FreeBSD/NFSv4 | Not implemented | Not implemented | Source research only |
 
 `require "acl"` loads all models and the current platform's backend. Standalone
@@ -86,21 +86,24 @@ end
 ```
 
 `read_handle` and `write_handle` borrow a `Void*` FILE_OBJECT handle.
-Path operations first obtain the SDK access mask. When a DACL is selected for a
-write, or the audit SACL is selected for a read, the path opener also requests
-`READ_CONTROL`. If that augmented *open* fails specifically with access denied,
-it tries the unmodified SDK mask once. Only the open is retried: no successful
-handle is replaced, no setter is invoked twice, and the component selection,
-share mode, and reparse mode do not change. Other selectors are not widened.
-On a build that also rejects the minimal handle at query/set time, the native
-error is returned. Failed path opens raise `PathOpenError`, a `NativeError`
-subclass whose `attempts` retains every requested access mask and Win32 code.
-No privilege is enabled. Borrowed handles are used as-is.
+Path operations first obtain the SDK access mask. Every path-based write prefers
+the SDK mask plus `READ_CONTROL`; audit-SACL reads do the same. Native Windows build 26100 evidence showed that a handle opened with only
+the SDK write mask can still
+reach `SetSecurityInfo` and be rejected there, while the same operation succeeds
+with `READ_CONTROL` present. If the augmented *open* itself fails specifically
+with access denied, the opener tries the unmodified SDK mask once, preserving
+delegated write-only access. Only the open is retried: no successful handle is
+replaced, no setter is invoked twice, and the component selection, share mode,
+and reparse mode do not change. Failed path opens raise `PathOpenError`, a
+`NativeError` subclass whose `attempts` retains every requested access mask and
+Win32 code. No privilege is enabled. Borrowed handles are used as-is.
 
-Path strings are passed to `CreateFileW` without rewriting their namespace.
-For a long absolute path, use its explicit extended-length spelling when the
-consumer's ordinary long-path configuration is unknown. No automatic prefix is
-added to relative paths or names with Win32-specific interpretation.
+Short path spellings are passed through unchanged. When the resolved absolute
+UTF-16 path reaches the traditional `MAX_PATH` boundary, the backend converts it
+to an extended-length spelling before `CreateFileW`: local paths use `\\?\`
+and UNC paths use `\\?\UNC\`. Existing `\\?\` and `\\.\` namespace
+paths are preserved. This removes any dependency on the consuming executable's
+long-path-aware manifest while retaining the caller's original path in errors.
 
 `set_dacl(path, list, inheritance: :preserve)` is a DACL-only convenience.
 Inheritance can explicitly be `:protect` or `:unprotect`; it is never inferred
@@ -142,4 +145,4 @@ See `../scripts/verify-native.sh` / `verify-native.ps1` for the additional nativ
 SDK probes. The full native harness lives at the checkpoint root. The Windows
 path policy and new integration cases require execution on a native host; older
 native results and the portable evidence replay are distinct verification layers.
-See `../docs/checkpoint-5.md` for the evidence behind this revision.
+See `../docs/checkpoint-6.md` for the evidence behind this revision.

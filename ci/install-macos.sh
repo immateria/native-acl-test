@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
-[[ $(uname -sm) == 'Darwin arm64' ]]
+[[ $(uname -s) == 'Darwin' ]]
+case $(uname -m) in
+  arm64|x86_64) ;;
+  *) printf 'unsupported macOS architecture: %s\n' "$(uname -m)" >&2; exit 1 ;;
+esac
 version=1.21.1
 url="https://github.com/crystal-lang/crystal/releases/download/$version/crystal-$version-1-darwin-universal.tar.gz"
 dir=$(mktemp -d "$RUNNER_TEMP/acl-crystal.XXXXXX")

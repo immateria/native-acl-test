@@ -1,6 +1,6 @@
 # native-acl-test
 
-Run the same ACL shard against real Darwin and Windows kernels and bring back enough evidence to explain disagreements. This is a **test repository**, not a new release of the `acl` shard. `acl/`, `lab/`, `probes/` and the original entry points come from checkpoint 5 (`acl` 0.0.5). No desktop registration, repository secrets, self-hosted runner, or manual upload is needed for hosted runs.
+Run the same ACL shard against real Darwin and Windows kernels and bring back enough evidence to explain disagreements. This is a **test repository**, not a new release of the `acl` shard. `acl/`, `lab/`, `probes/` and the original entry points come from checkpoint 7 (`acl` 0.0.7). No desktop registration, repository secrets, self-hosted runner, or manual upload is needed for hosted runs.
 
 ## First push
 
@@ -37,12 +37,14 @@ The in-repo files are authoritative; the ZIP only seeds the repository.
 
 | Lane | Runner and actual identity | Smoke / full named cases | Additional evidence |
 |---|---|---:|---|
-| `macos-arm64` | `macos-15`, Apple Silicon, not root | 18 / 248 | Three-state ACL experiment: native libc vs raw path and descriptor reads |
-| `windows-elevated` | `windows-2025`, x64, elevated; verifies active admin membership | 27 / 357 | C selector map twice: untouched token, then requested privileges in a fresh process |
-| `windows-filtered` | Same image, same user SID within that job, UAC-style restricted token, medium integrity, no enabled admin membership | 27 / 357 | Same C mapper on the untouched filtered token |
-| `windows-lab` | **Manual only**, separate elevated `windows-2025` VM | 36 multiuser cases | Provision/cleanup evidence for three disposable local users and two groups; never targets your desktop |
+| `macos-arm64` | `macos-15`, Apple Silicon, not root | 18 / 248 | Behavior map: 25 / 661 / 2,173 rows for smoke/full/map |
+| `macos-x64` | `macos-15-intel`, Intel, not root; manual only | 18 / 248 | Same Darwin map on the second architecture |
+| `windows-elevated` | `windows-2025`, x64, elevated; verifies active admin membership | 27 / 357 | C selector map plus 52 / 793 / 52,989 behavior rows |
+| `windows-filtered` | Same image, UAC-style restricted token, medium integrity, no enabled admin membership | 27 / 357 | Same map under the filtered token |
+| `windows-2022-elevated` / `windows-2022-filtered` | `windows-2022`, x64; manual only | 27 / 357 | Cross-version map against the older hosted kernel |
+| `windows-lab` | **Manual only**, elevated `windows-2025` VM | 36 qualification cases | Adds 306 real-user/group behavior rows; never targets your desktop |
 
-`all` means the first three lanes. Native matrix jobs do not fail fast. Pushes touching code, tests, runner scripts or the workflow use smoke. Manual runs default to full. Docs-only pushes do not trigger native jobs. An Ubuntu job runs the Python harness tests and checks the reviewed case inventory; it does **not** claim native Windows or Darwin coverage. Only the compiled binaries and live kernel results from the designated runner count as native evidence.
+`all` means both macOS architectures plus the Windows 2025/2022 elevated and filtered lanes for manual dispatch; pushes remain bounded to macOS arm64 and the two Windows 2025 lanes. Native matrix jobs do not fail fast. Pushes touching code, tests, runner scripts or the workflow use smoke. Manual runs default to full. Docs-only pushes do not trigger native jobs. An Ubuntu job runs the Python harness tests and checks the reviewed case inventory; it does **not** claim native Windows or Darwin coverage. Only the compiled binaries and live kernel results from the designated runner count as native evidence.
 
 ## Iterate with `gh`
 
@@ -56,8 +58,11 @@ gh workflow run native-acl.yml --ref main -f lane=all -f profile=full
 gh workflow run native-acl.yml --ref main -f lane=windows-elevated \
   -f profile=full -f 'only=windows.sacl.*' -f seed=20261103
 
+# Exhaustive native behavior maps across ordinary hosted lanes
+gh workflow run native-acl.yml --ref main -f lane=all -f profile=map
+
 # Real Windows identities. Only this dispatch enables account creation.
-gh workflow run native-acl.yml --ref main -f lane=windows-lab
+gh workflow run native-acl.yml --ref main -f lane=windows-lab -f profile=map
 
 # Pick the run for the right commit and event; do not assume latest means yours.
 gh run list --workflow native-acl.yml --limit 10 \
@@ -76,7 +81,15 @@ python -m ci.compare handbacks/123456/acl-windows-elevated-123456-1 \
                      handbacks/123457/acl-windows-elevated-123457-1
 ```
 
-The comparison reports status changes by case ID and native `open_code`/`api_code`/`granted_access` etc. by `(object, operation, selector, variant)`, not by ephemeral SID, timing or attempt number. Untouched and privilege-enabled maps are separate. Darwin comparisons suppress random filesec identity bytes; raw values remain available. The report includes both commit SHAs, lane, arguments and gate state. Added/removed cases on different profiles are coverage changes, not regressions. Unchanged status does not imply unchanged ACL bytes: compare the case's recorded requests/responses for that question.
+The comparison reports qualification status changes, native selector changes, behavior coverage changes, and semantic behavior changes by `(domain, key)`. It normalizes runner paths, timing, generated account names, machine-local SIDs, Darwin principal UUIDs, and raw identity-bearing byte fields only in the comparison projection; raw JSONL and descriptors remain intact. It does not compare by ephemeral attempt number. Untouched and privilege-enabled maps are separate. Darwin comparisons suppress random filesec identity bytes; raw values remain available. The report includes both commit SHAs, lane, arguments and gate state. Added/removed cases on different profiles are coverage changes, not regressions. Unchanged status does not imply unchanged ACL bytes: compare the case's recorded requests/responses for that question.
+
+Checkpoint 6 was derived from full run `41800279553`; checkpoint 7 retains those fixes and adds the mapping framework. For the shortest confirmation cycle, rerun `windows.sacl.*` in the elevated lane and `windows.path.long_component` in both Windows lanes before repeating the full matrix. See [the retained review](docs/native-run-41800279553-review.md).
+
+## Exhaustive behavior maps
+
+`profile=map` is deliberately different from `full`: it maps semantic matrices rather than multiplying named pass/fail cases. Current catalogs contain **2,173 Darwin rows**, **52,989 ordinary Windows rows**, and **53,295 Windows rows with the real-account lab**. Domains run in isolated worker processes, write append-only JSONL, and are independently revalidated by the evidence gate. Map runs also attempt case-sensitive APFS/HFS+ images, loopback SMB, and ReFS VHDX fixtures under bounded runner-owned scratch roots.
+
+See [Exhaustive native ACL behavior mapping](docs/BEHAVIOR-MAPPING.md) for exact domain counts, row semantics, comparison normalization, runner/filesystem coverage, and the remaining AD/auditing/remote-filesystem limits.
 
 ## Read a handback
 

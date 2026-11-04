@@ -29,7 +29,7 @@ def resolve_executable(value):
 
 def parser():
     p=argparse.ArgumentParser(description=__doc__,formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('--profile',choices=['smoke','full','stress'],default='full')
+    p.add_argument('--profile',choices=['smoke','full','map','stress'],default='full')
     p.add_argument('--privileged',action='store_true',help='opt into process-scoped privilege cases; never auto-elevates')
     p.add_argument('--local-accounts',action='store_true',help='create disposable local users/groups for multi-token Windows cases; requires an elevated shell')
     p.add_argument('--seed',type=int,default=20261103)
@@ -96,7 +96,7 @@ def main(argv=None):
     try:
         core.write_json(results/'case-manifest.json',case_list)
         core.write_json(results/'source-hashes.json',hash_sources())
-        core.write_json(results/'invocation.json',dict(arguments=vars_to_json(args),suite='acl-checkpoint-5',checkpoint='acl 0.0.5'))
+        core.write_json(results/'invocation.json',dict(arguments=vars_to_json(args),suite='acl-checkpoint-6',checkpoint='acl 0.0.6'))
         workspace=core.new_workspace(args.scratch_parent)
         core.write_json(results/'scratch-location.json',dict(path=str(workspace),ownership_marker='.acl-lab-owned'))
         metadata=dict(system=platform.system(),release=platform.release(),version=platform.version(),machine=platform.machine(),
@@ -287,7 +287,7 @@ def main(argv=None):
                 stages.append(dict(name='local-account-cleanup',status='FAIL',error=repr(exc)))
                 errors.append(dict(local_account_cleanup_error=repr(exc)));exit_code=1
         counts=dict(collections.Counter(r['status'] for r in case_results))
-        summary=dict(suite='acl-checkpoint-5',checkpoint='acl 0.0.5',platform=osname,profile=args.profile,
+        summary=dict(suite='acl-checkpoint-6',checkpoint='acl 0.0.6',platform=osname,profile=args.profile,
                      selected=len(case_list),completed=len(case_results),counts=counts,stages=stages,errors=errors,
                      exit_code=exit_code,certification=False,notice='PASS is only the named assertion; SKIP, OBSERVE and BLOCKED are not passes.')
         core.write_json(results/'summary.json',summary)

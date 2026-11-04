@@ -18,7 +18,7 @@ class Darwin:
         signatures = {
             'getattrlist':(i,[C.c_char_p,C.POINTER(Attributes),p,C.c_size_t,C.c_ulong]),
             'fgetattrlist':(i,[i,C.POINTER(Attributes),p,C.c_size_t,C.c_ulong]),
-            'acl_init':(p,[i]),'acl_free':(i,[p]),'acl_size':(z,[p]),
+            'acl_init':(p,[i]),'acl_free':(i,[p]),'acl_size':(z,[p]),'acl_valid':(i,[p]),'acl_dup':(p,[p]),
             'acl_copy_int':(p,[p]),'acl_copy_ext':(z,[p,p,z]),
             'acl_set_file':(i,[C.c_char_p,u,p]),'acl_set_fd_np':(i,[i,p,u]),
             'acl_get_file':(p,[C.c_char_p,u]),'acl_get_link_np':(p,[C.c_char_p,u]),
@@ -27,6 +27,7 @@ class Darwin:
             'acl_get_permset':(i,[p,C.POINTER(p)]),'acl_add_perm':(i,[p,u]),
             'acl_get_flagset_np':(i,[p,C.POINTER(p)]),'acl_add_flag_np':(i,[p,u]),
             'mbr_uid_to_uuid':(i,[u,p]),'mbr_gid_to_uuid':(i,[u,p]),
+            'clonefile':(i,[C.c_char_p,C.c_char_p,u]),
         }
         for name,(restype,args) in signatures.items():
             f=getattr(self.lib,name);f.restype=restype;f.argtypes=args
@@ -43,13 +44,14 @@ class Darwin:
         if code: raise NativeFailure(name,code)
         return str(uuid.UUID(bytes=b.raw))
 
-    def raw_attribute(self,path,follow=True,fd=None,size=4096):
+    def raw_attribute(self,path,follow=True,fd=None,size=4096,options=None):
         attributes=Attributes(5,0,0x80400000,0,0,0,0)
         buf=C.create_string_buffer(size)
+        flags=(4 if options is None else int(options)) | (0 if follow else 1)
         if fd is None:
-            ret=self.lib.getattrlist(os.fsencode(path),C.byref(attributes),buf,size,4|(0 if follow else 1))
+            ret=self.lib.getattrlist(os.fsencode(path),C.byref(attributes),buf,size,flags)
         else:
-            ret=self.lib.fgetattrlist(fd,C.byref(attributes),buf,size,4)
+            ret=self.lib.fgetattrlist(fd,C.byref(attributes),buf,size,flags & ~1)
         code=C.get_errno() if ret else 0
         return dict(returncode=ret,errno=code,buffer_size=size,raw=buf.raw.hex())
 
@@ -113,6 +115,21 @@ class Darwin:
             return dict(ok=True,hex=buf.raw[:actual].hex())
         finally: self.lib.acl_free(native)
 
+    def libc_read_fd(self,fd):
+        """Read an extended ACL through the descriptor API with bounded export."""
+        C.set_errno(0)
+        native=self.lib.acl_get_fd_np(int(fd),0x100)
+        if not native: return dict(ok=False,errno=C.get_errno())
+        try:
+            size=self.lib.acl_size(native)
+            if not 44<=size<=44+128*24: raise ValueError('unexpected acl_size')
+            buf=C.create_string_buffer(size)
+            actual=self.lib.acl_copy_ext(buf,native,size)
+            if actual<0: raise NativeFailure('acl_copy_ext',C.get_errno())
+            if actual>size: raise ValueError('acl_copy_ext exceeded bounded buffer')
+            return dict(ok=True,hex=buf.raw[:actual].hex())
+        finally: self.lib.acl_free(native)
+
     def build_using_entry_api(self,principal,mask=2):
         """Construct via acl_create_entry rather than the shard's import format."""
         native=C.c_void_p(self.check(self.lib.acl_init(1),'acl_init',True))
@@ -129,6 +146,26 @@ class Darwin:
             if actual<0: raise NativeFailure('acl_copy_ext',C.get_errno())
             return buf.raw[:actual]
         finally: self.lib.acl_free(native)
+
+
+    def init_count(self,count):
+        """Observe acl_init/count/size/valid without importing an unbounded buffer."""
+        C.set_errno(0)
+        native=self.lib.acl_init(int(count))
+        if not native:
+            return dict(ok=False,errno=C.get_errno(),count=int(count))
+        try:
+            size=self.lib.acl_size(native)
+            valid=self.lib.acl_valid(native)
+            return dict(ok=True,count=int(count),size=int(size),valid=int(valid),errno=C.get_errno() if valid else 0)
+        finally:
+            self.lib.acl_free(native)
+
+    def clonefile(self,source,destination,flags=0):
+        C.set_errno(0)
+        result=self.lib.clonefile(os.fsencode(source),os.fsencode(destination),int(flags))
+        if result:
+            raise NativeFailure('clonefile',C.get_errno())
 
     def environment(self,root):
         v=os.statvfs(root)

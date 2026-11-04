@@ -99,3 +99,35 @@ Nonzero native outcomes are observations, not automatic suite failures. Fatal
 probe setup/output failures fail the stage. Returned archives contain
 `stages/windows-native-map.jsonl` and
 `stages/windows-native-map-summary.json`.
+
+## Exhaustive behavior-map inventory
+
+The qualification counts above remain frozen. `profile=map` adds a separate semantic evidence catalog:
+
+### Darwin behavior rows
+
+| Domain | Smoke | Full | Map |
+|---|---:|---:|---:|
+| `storage` | 6 | 264 | 868 |
+| `inheritance` | 4 | 66 | 256 |
+| `mode-access` | 4 | 240 | 912 |
+| `lifecycle` | 4 | 24 | 27 |
+| `api` | 7 | 67 | 110 |
+| **Total** | **25** | **661** | **2,173** |
+
+### Windows behavior rows
+
+| Domain | Smoke | Full | Map |
+|---|---:|---:|---:|
+| `descriptor-storage` | 5 | 147 | 47,158 |
+| `selector-combinations` | 28 | 208 | 2,216 |
+| `access-evaluation` | 4 | 240 | 520 |
+| `inheritance-events` | 4 | 66 | 1,920 |
+| `lifecycle` | 4 | 40 | 43 |
+| `token-privilege` | 3 | 52 | 52 |
+| `authz` | 4 | 40 | 1,080 |
+| `multiuser-map` | 0 | 0 | 306 |
+| **Ordinary total** | **52** | **793** | **52,989** |
+| **With `windows-lab`** | **52** | **793** | **53,295** |
+
+A row is a native observation keyed by stable semantics, not a claim that every mask, flag, or selector must succeed. Catalog/serialization/fixture/cleanup errors are red; an OS rejection recorded at the correct call boundary may be `observe`. See `docs/BEHAVIOR-MAPPING.md`.

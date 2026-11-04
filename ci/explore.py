@@ -1,15 +1,19 @@
 """Probe native behavior independently of the Crystal build and test assertions."""
 import json
+import os
 import pathlib
 import shutil
 import tempfile
 
+from ci import behavior
 from lab import core, windows_native_map, wire
 from lab.native import NativeFailure
 
 
 def explore(lane, work, out):
-    if lane == 'macos-arm64':
+    profile = os.environ.get('ACL_PROFILE', 'smoke')
+    behavior_timeout = 3600 if profile == 'map' else 900
+    if lane.startswith('macos-'):
         from lab.darwin import Darwin
         native = Darwin()
         with tempfile.TemporaryDirectory(dir=work/'scratch') as td, (out/'darwin-presence.jsonl').open('w', encoding='utf-8') as log:
@@ -25,6 +29,8 @@ def explore(lane, work, out):
                 except NativeFailure as exc:
                     row['native_error'] = {'operation':exc.operation,'code':exc.code}
                 print(json.dumps(row), file=log, flush=True)
+        behavior.run_all('darwin', profile, work, out, privileged=False,
+                         timeout=behavior_timeout)
         return 0
     build = work/'explore-build'
     exe = build/'aclmap.exe'
@@ -35,7 +41,8 @@ def explore(lane, work, out):
     if r['returncode'] != 0 or r['timed_out']: return 1
     # Do not confound UAC filtering with enabling extra privileges. Every Windows lane
     # maps its untouched token first. The opt-in repeat is a *fresh process*.
-    modes = [('',False)] if lane=='windows-filtered' else [('',False),('-privileged',True)]
+    filtered = lane.endswith('-filtered')
+    modes = [('', False)] if filtered else [('', False), ('-privileged', True)]
     failures=[]
     for suffix, enable in modes:
         dest=out/f'windows-selectors{suffix}.jsonl'
@@ -46,12 +53,30 @@ def explore(lane, work, out):
         except (ValueError,OSError,KeyError) as exc:
             failures.append(f'{dest.name}: {exc}')
     if failures: raise ValueError('; '.join(failures))
+
+    from lab.windows_behavior import implemented_domains
+    domains = tuple(implemented_domains())
+    local_accounts = lane == 'windows-lab'
+    if not local_accounts:
+        domains = tuple(name for name in domains if name != 'multiuser-map')
+    behavior.run_all(
+        'windows', profile, work, out,
+        privileged=not filtered,
+        timeout=behavior_timeout, domains=domains,
+        local_accounts=local_accounts,
+    )
     return 0
 
 
 def verify_mapper(dest,lane,enable,summary_path):
     rows=windows_native_map.load_jsonl(dest)
-    required={'owner','group','dacl','sacl','label','attribute','scope','process_trust_label','access_filter','basic','audit_label','all_defined','backup'}
+    required={
+        'owner','group','dacl','sacl','label','attribute','scope',
+        'process_trust_label','access_filter','basic','audit_label',
+        'protected_dacl','unprotected_dacl','protected_sacl','unprotected_sacl',
+        'conflicting_dacl_protection','conflicting_sacl_protection',
+        'all_defined','backup',
+    }
     expected={(s,o,m) for s in required for o in ('file','directory') for m in ('query','set')}
     actual={(r['selector'],r['object'],r['operation']) for r in rows if r['kind']=='selector'}
     core.write_json(summary_path,windows_native_map.summarize(rows))
@@ -65,15 +90,18 @@ def verify_mapper(dest,lane,enable,summary_path):
         sdk=attempts[0]['sdk_access']
         candidates=[('zero',0),('sdk',sdk),('plus_read_control',sdk|0x20000)]
         if sdk & 0x20000: candidates.append(('minus_read_control',sdk & ~0x20000))
+        candidates.extend((('plus_synchronize', sdk | 0x100000),
+                           ('maximum_allowed', 0x02000000)))
         distinct={}
         for variant,mask in candidates: distinct.setdefault(mask,variant)
         if (any(r['sdk_access']!=sdk for r in attempts) or len(attempts)!=len(distinct)
                 or {(r['access'],r['variant']) for r in attempts}!=set(distinct.items())):
             raise ValueError(f'incomplete or duplicate access-mask variants: {key}')
     tokens=[r for r in rows if r['kind']=='token']
-    if len(tokens)!=1 or tokens[0]['elevated'] is not (lane!='windows-filtered'):
+    filtered = lane.endswith('-filtered')
+    if len(tokens)!=1 or tokens[0]['elevated'] is not (not filtered):
         raise ValueError('mapper did not confirm the expected token')
     attempts=[r for r in rows if r['kind']=='privilege_enable']
     if len(attempts)!=(4 if enable else 0): raise ValueError('privilege mode mismatch')
-    if lane=='windows-filtered' and tokens[0].get('integrity_sid')!='S-1-16-8192':
+    if filtered and tokens[0].get('integrity_sid')!='S-1-16-8192':
         raise ValueError('filtered mapper did not run at medium integrity')

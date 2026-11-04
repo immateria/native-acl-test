@@ -12,7 +12,12 @@ struct ACL::Platform::Windows::OpenAccess
   end
 
   def self.for_update(base : UInt32, selection : Selection) : self
-    new(base, selection.includes?(Selection::DACL))
+    # Current NTFS builds can accept the SDK-calculated write handle and still
+    # reject SetSecurityInfo unless READ_CONTROL was granted on that handle.
+    # Prefer the augmented mask for every selector. OpenAccess#open retains the
+    # exact-mask fallback for delegated write-only handles whose augmented open
+    # is itself denied.
+    new(base, true)
   end
 
   def self.for_query(base : UInt32, selection : Selection) : self

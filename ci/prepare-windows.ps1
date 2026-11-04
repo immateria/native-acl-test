@@ -5,7 +5,7 @@ $bin = (Get-Command crystal.exe -ErrorAction Stop).Source
 & $bin --version
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 Get-Command cl.exe,link.exe -ErrorAction Stop | Select-Object Name,Source
-if ($env:ACL_LANE -ne 'windows-filtered') { exit 0 }
+if ($env:ACL_LANE -notlike 'windows*-filtered') { exit 0 }
 $work = Join-Path $env:RUNNER_TEMP 'native-acl-ci'
 $out = Join-Path $env:GITHUB_WORKSPACE 'ci-out'
 $sid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value

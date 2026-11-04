@@ -10,3 +10,5 @@ handbacks/
 .env
 env.sh
 build/
+.cache/
+bin/

@@ -6,14 +6,26 @@ private alias Selection = ACL::Windows::Information
 private alias OpenError = ACL::Windows::NativeError
 
 describe Access do
-  it "adds READ_CONTROL to the DACL writer without replacing native rights" do
-    Access.for_update(0x40000_u32, Selection::DACL).preferred.should eq(0x60000_u32)
+  it "adds READ_CONTROL to every path update without replacing native rights" do
+    selections = [
+      Selection::Owner,
+      Selection::Group,
+      Selection::DACL,
+      Selection::SACL,
+      Selection::Label,
+      Selection::Attribute,
+      Selection::Scope,
+      Selection::ProcessTrustLabel,
+      Selection::AccessFilter,
+      Selection::Owner | Selection::DACL,
+    ]
+    selections.each do |selection|
+      Access.for_update(0x40000_u32, selection).preferred.should eq(0x60000_u32)
+    end
     Access.for_update(0xc0000_u32, Selection::Owner | Selection::DACL).preferred.should eq(0xe0000_u32)
   end
 
-  it "does not widen unrelated updates or filtered queries" do
-    Access.for_update(0x80000_u32, Selection::Owner | Selection::Group).preferred.should eq(0x80000_u32)
-    Access.for_update(0x1000000_u32, Selection::SACL).preferred.should eq(0x1000000_u32)
+  it "does not widen filtered non-SACL queries" do
     Access.for_query(0x1234_u32, Selection::Label).preferred.should eq(0x1234_u32)
   end
 
@@ -64,15 +76,15 @@ describe Access do
     error.message.not_nil!.should contain("0x01000000=>1314")
   end
 
-  it "wraps a single native path-open failure with its attempted mask" do
+  it "wraps a single native path-open failure with its augmented mask" do
     error = expect_raises(ACL::Windows::PathOpenError) do
       Access.for_update(0x80000_u32, Selection::Owner).open("missing") do |mask|
-        raise OpenError.new("CreateFileW", "missing", 2_u32) if mask == 0x80000_u32
+        raise OpenError.new("CreateFileW", "missing", 2_u32) if mask == 0xa0000_u32
         :unreachable
       end
     end
     error.attempts.size.should eq(1)
-    error.attempts.first.access.should eq(0x80000_u32)
+    error.attempts.first.access.should eq(0xa0000_u32)
     error.attempts.first.code.should eq(2_u32)
   end
 

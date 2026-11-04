@@ -1,4 +1,4 @@
 name: acl
-version: 0.0.5
+version: 0.0.7
 crystal: ">= 1.18.0, < 2.0.0"
 license: MIT

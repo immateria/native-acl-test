@@ -156,6 +156,16 @@ class ProcessTreeTests(unittest.TestCase):
 
 
 class ReturnRegressionTests(unittest.TestCase):
+    def test_long_path_evidence_is_available_before_the_bridge_call(self):
+        from lab.windows_cases import long_path_evidence
+        leaf = "x" * 240
+        evidence = long_path_evidence(r"D:\a\native-acl-test\scratch", leaf)
+        self.assertEqual(evidence["component"], 240)
+        self.assertEqual(evidence["relative_utf16_units"], 240)
+        self.assertGreater(evidence["absolute_utf16_units"], evidence["relative_utf16_units"])
+        self.assertTrue(evidence["ordinary"].endswith("\\" + leaf))
+        self.assertTrue(evidence["extended"].startswith("\\\\?\\D:\\"))
+
     def test_extended_scratch_names_handle_local_and_unc_prefixes(self):
         from lab.windows_cases import extended_path
         for ordinary, extended in [(r'C:\dir\f',r'\\?\C:\dir\f'), (r'\\server\share\f',r'\\?\UNC\server\share\f')]:
@@ -300,6 +310,27 @@ class WindowsNativeMapTests(unittest.TestCase):
         emit_source=source[emit_start:map_start]
         self.assertIn('create_attempt_fixture(',emit_source)
         self.assertIn('cleanup_attempt_fixture(',emit_source)
+
+    def test_native_mapper_probes_extended_access_mask_variants(self):
+        source=(pathlib.Path(__file__).resolve().parents[1]/'probes'/'windows_acl_map.c').read_text(encoding='utf-8')
+        self.assertIn('plus_synchronize',source)
+        self.assertIn('maximum_allowed',source)
+        self.assertIn('MAXIMUM_ALLOWED',source)
+        self.assertIn('SYNCHRONIZE',source)
+
+    def test_native_mapper_probes_protected_and_unprotected_acl_selectors(self):
+        source=(pathlib.Path(__file__).resolve().parents[1]/'probes'/'windows_acl_map.c').read_text(encoding='utf-8')
+        stub=(pathlib.Path(__file__).resolve().parents[1]/'probes'/'windows_acl_map_stub.h').read_text(encoding='utf-8')
+        for token in ('protected_dacl', 'unprotected_dacl', 'protected_sacl',
+                      'unprotected_sacl', 'conflicting_dacl_protection',
+                      'conflicting_sacl_protection'):
+            self.assertIn(token, source)
+        for token in ('PROTECTED_DACL_SECURITY_INFORMATION',
+                      'UNPROTECTED_DACL_SECURITY_INFORMATION',
+                      'PROTECTED_SACL_SECURITY_INFORMATION',
+                      'UNPROTECTED_SACL_SECURITY_INFORMATION'):
+            self.assertIn(token, source)
+            self.assertIn(token, stub)
 
     def test_native_mapper_only_requests_token_adjustment_for_privileged_runs(self):
         source=(pathlib.Path(__file__).resolve().parents[1]/'probes'/'windows_acl_map.c').read_text(encoding='utf-8')

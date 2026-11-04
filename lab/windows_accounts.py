@@ -319,10 +319,16 @@ class WindowsTokenLab:
         self.a.GetLengthSid.restype = U32
         self.a.GetTokenInformation.argtypes = [P, U32, P, U32, C.POINTER(U32)]
         self.a.GetTokenInformation.restype = C.c_int
+        self.a.OpenProcessToken.argtypes = [P, U32, C.POINTER(P)]
+        self.a.OpenProcessToken.restype = C.c_int
+        self.a.AdjustTokenPrivileges.argtypes = [P, C.c_int, P, U32, P, C.POINTER(U32)]
+        self.a.AdjustTokenPrivileges.restype = C.c_int
         self.a.LookupPrivilegeValueW.argtypes = [C.c_wchar_p, C.c_wchar_p, C.POINTER(LUID)]
         self.a.LookupPrivilegeValueW.restype = C.c_int
         self.a.LookupPrivilegeNameW.argtypes = [C.c_wchar_p, C.POINTER(LUID), C.c_wchar_p, C.POINTER(U32)]
         self.a.LookupPrivilegeNameW.restype = C.c_int
+        self.k.GetCurrentProcess.argtypes = []
+        self.k.GetCurrentProcess.restype = P
         self.k.CloseHandle.argtypes = [P]
         self.k.CloseHandle.restype = C.c_int
         self.k.LocalFree.argtypes = [P]
@@ -332,6 +338,45 @@ class WindowsTokenLab:
         if not value:
             raise NativeFailure(operation, C.get_last_error())
         return value
+
+
+    @contextlib.contextmanager
+    def current_token(self, access=0x000F01FF):
+        token = P()
+        self._check(self.a.OpenProcessToken(self.k.GetCurrentProcess(), int(access),
+                                            C.byref(token)), 'OpenProcessToken')
+        try:
+            yield token
+        finally:
+            self.k.CloseHandle(token)
+
+    @contextlib.contextmanager
+    def duplicate(self, token, access=0x000F01FF):
+        output = P()
+        self._check(self.a.DuplicateTokenEx(token, int(access), None,
+                                            self.SECURITY_IMPERSONATION, self.TOKEN_IMPERSONATION,
+                                            C.byref(output)), 'DuplicateTokenEx')
+        try:
+            yield output
+        finally:
+            self.k.CloseHandle(output)
+
+    def adjust_privilege(self, token, name, state):
+        attributes = {'disabled': 0, 'enabled': 2, 'removed': 4}[state]
+        luid = LUID()
+        self._check(self.a.LookupPrivilegeValueW(None, name, C.byref(luid)),
+                    'LookupPrivilegeValueW(adjust)')
+        value = LUID_AND_ATTRIBUTES(luid, attributes)
+        class OnePrivilege(C.Structure):
+            _fields_ = [('count', U32), ('value', LUID_AND_ATTRIBUTES)]
+        update = OnePrivilege(1, value)
+        C.set_last_error(0)
+        self._check(self.a.AdjustTokenPrivileges(token, False, C.byref(update), 0, None, None),
+                    'AdjustTokenPrivileges')
+        code = C.get_last_error()
+        if code:
+            raise NativeFailure('AdjustTokenPrivileges', code)
+        return self.token_snapshot(token)
 
     @contextlib.contextmanager
     def sid(self, text: str):
@@ -464,25 +509,45 @@ class WindowsTokenLab:
         finally:
             self.k.LocalFree(output)
 
+    def _optional_token_data(self, token, kind):
+        try:
+            return self._token_data(token, kind), None
+        except NativeFailure as exc:
+            return None, {'operation': exc.operation, 'code': exc.code}
+
+    def _groups_from_buffer(self, buffer):
+        pointer_size = C.sizeof(P)
+        count = int.from_bytes(bytes(buffer[:4]), 'little')
+        offset = (4 + pointer_size - 1) & ~(pointer_size - 1)
+        stride = (pointer_size + 4 + pointer_size - 1) & ~(pointer_size - 1)
+        if count > 4096 or offset + count * stride > C.sizeof(buffer):
+            raise ValueError('invalid TOKEN_GROUPS extent')
+        values = []
+        for index in range(count):
+            base = offset + index * stride
+            sid_pointer = int.from_bytes(bytes(buffer[base:base + pointer_size]), 'little')
+            attributes = int.from_bytes(bytes(buffer[base + pointer_size:base + pointer_size + 4]), 'little')
+            values.append({'sid': self._sid_text(sid_pointer), 'attributes': attributes,
+                           'enabled': bool(attributes & 0x4),
+                           'enabled_by_default': bool(attributes & 0x2),
+                           'mandatory': bool(attributes & 0x1),
+                           'deny_only': bool(attributes & 0x10),
+                           'integrity': bool(attributes & 0x20),
+                           'integrity_enabled': bool(attributes & 0x40),
+                           'owner': bool(attributes & 0x8),
+                           'logon_id': bool(attributes & 0xC0000000)})
+        return values
+
+    def _pointer_sid(self, buffer):
+        pointer_size = C.sizeof(P)
+        pointer = int.from_bytes(bytes(buffer[:pointer_size]), 'little')
+        return self._sid_text(pointer) if pointer else None
+
     def token_snapshot(self, token):
         pointer_size = C.sizeof(P)
         user = self._token_data(token, 1)
         user_pointer = int.from_bytes(bytes(user[:pointer_size]), 'little')
-        groups = self._token_data(token, 2)
-        count = int.from_bytes(bytes(groups[:4]), 'little')
-        offset = (4 + pointer_size - 1) & ~(pointer_size - 1)
-        stride = pointer_size + 4
-        stride = (stride + pointer_size - 1) & ~(pointer_size - 1)
-        if count > 4096 or offset + count * stride > C.sizeof(groups):
-            raise ValueError('invalid TOKEN_GROUPS extent')
-        group_values = []
-        for index in range(count):
-            base = offset + index * stride
-            sid_pointer = int.from_bytes(bytes(groups[base:base + pointer_size]), 'little')
-            attributes = int.from_bytes(bytes(groups[base + pointer_size:base + pointer_size + 4]), 'little')
-            group_values.append({'sid': self._sid_text(sid_pointer), 'attributes': attributes,
-                                 'enabled': bool(attributes & 0x4),
-                                 'deny_only': bool(attributes & 0x10)})
+        groups = self._groups_from_buffer(self._token_data(token, 2))
         integrity = self._token_data(token, 25)
         integrity_pointer = int.from_bytes(bytes(integrity[:pointer_size]), 'little')
         privilege_data = self._token_data(token, 3)
@@ -503,11 +568,68 @@ class WindowsTokenLab:
                 capacity = U32(len(buffer))
                 if self.a.LookupPrivilegeNameW(None, C.byref(luid), buffer, C.byref(capacity)):
                     name = buffer.value
-            privileges.append({'name': name, 'attributes': attributes,
-                               'enabled': bool(attributes & 2)})
-        return {'user_sid': self._sid_text(user_pointer), 'groups': group_values,
-                'integrity_sid': self._sid_text(integrity_pointer),
-                'privileges': privileges}
+            privileges.append({'name': name, 'luid_low': low, 'luid_high': high,
+                               'attributes': attributes, 'enabled': bool(attributes & 2),
+                               'enabled_by_default': bool(attributes & 1),
+                               'removed': bool(attributes & 4),
+                               'used_for_access': bool(attributes & 0x80000000)})
+
+        result = {'user_sid': self._sid_text(user_pointer), 'groups': groups,
+                  'integrity_sid': self._sid_text(integrity_pointer),
+                  'privileges': privileges}
+        simple = {18: 'elevation_type', 20: 'elevated', 23: 'virtualization_allowed',
+                  24: 'virtualization_enabled', 29: 'is_appcontainer',
+                  32: 'appcontainer_number'}
+        for kind, name in simple.items():
+            data, error = self._optional_token_data(token, kind)
+            if data is not None and C.sizeof(data) >= 4:
+                result[name] = int.from_bytes(bytes(data[:4]), 'little')
+            else:
+                result[name + '_error'] = error
+        for kind, name in ((11, 'restricted_sids'), (30, 'capabilities')):
+            data, error = self._optional_token_data(token, kind)
+            if data is not None:
+                result[name] = self._groups_from_buffer(data)
+            else:
+                result[name + '_error'] = error
+        for kind, name in ((4, 'owner_sid'), (5, 'primary_group_sid'),
+                           (31, 'appcontainer_sid')):
+            data, error = self._optional_token_data(token, kind)
+            if data is not None:
+                result[name] = self._pointer_sid(data)
+            else:
+                result[name + '_error'] = error
+        default_dacl, error = self._optional_token_data(token, 6)
+        if default_dacl is not None:
+            pointer = int.from_bytes(bytes(default_dacl[:pointer_size]), 'little')
+            if pointer:
+                header = C.string_at(pointer, 8)
+                size = int.from_bytes(header[2:4], 'little')
+                if 8 <= size <= 65535:
+                    from . import wire
+                    raw = C.string_at(pointer, size)
+                    result['default_dacl'] = {'raw': raw.hex(),
+                                              'parsed': wire.parse_acl(raw)}
+                else:
+                    result['default_dacl_error'] = {'reason': 'invalid ACL extent', 'size': size}
+            else:
+                result['default_dacl'] = None
+        else:
+            result['default_dacl_error'] = error
+        for kind, name in ((33, 'user_claims'), (34, 'device_claims')):
+            data, error = self._optional_token_data(token, kind)
+            result[name] = ({'available': True, 'size': C.sizeof(data)} if data is not None
+                            else {'available': False, 'error': error})
+        linked, error = self._optional_token_data(token, 19)
+        if linked is not None and C.sizeof(linked) >= pointer_size:
+            handle = int.from_bytes(bytes(linked[:pointer_size]), 'little')
+            result['linked_token'] = bool(handle)
+            if handle:
+                self.k.CloseHandle(handle)
+        else:
+            result['linked_token_error'] = error
+        return result
+
 
 
 class AccountProcessRunner:

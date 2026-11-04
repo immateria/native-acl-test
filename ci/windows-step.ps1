@@ -2,7 +2,7 @@
 param([Parameter(Mandatory)][ValidateSet('explore','collect')][string] $Stage)
 $ErrorActionPreference = 'Stop'
 $py = (Get-Command python.exe -ErrorAction Stop).Source
-if ($env:ACL_LANE -eq 'windows-filtered') {
+if ($env:ACL_LANE -like 'windows*-filtered') {
   # Launch python.exe directly. PowerShell does not run under the restricted token.
   # The child probes its own token before allowing either exploration or fixture writes.
   $launcher = Join-Path $env:RUNNER_TEMP 'acl-filter.exe'

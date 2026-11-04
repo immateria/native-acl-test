@@ -16,14 +16,14 @@ on:
   workflow_dispatch:
     inputs:
       lane:
-        description: 'all = macOS + two Windows tokens; windows-lab = disposable local accounts only'
+        description: 'all = macOS arm64/x64 + Windows 2025/2022 elevated/filtered; windows-lab = disposable local accounts only'
         type: choice
-        options: [all, macos-arm64, windows-elevated, windows-filtered, windows-lab]
+        options: [all, macos-arm64, macos-x64, windows-elevated, windows-filtered, windows-2022-elevated, windows-2022-filtered, windows-lab]
         default: all
       profile:
         description: 'Case catalog (windows-lab always selects its full multiuser catalog)'
         type: choice
-        options: [smoke, full, stress]
+        options: [smoke, full, map, stress]
         default: full
       only:
         description: 'Optional case ID/glob. Pick one matching lane; use full for non-smoke IDs.'
@@ -65,7 +65,7 @@ jobs:
     needs: plan
     name: ${{ matrix.lane }}
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 150
+    timeout-minutes: 360
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
@@ -121,16 +121,26 @@ jobs:
           xcrun --find clang
           xcrun --show-sdk-version
           sw_vers
+      - name: Prepare generated native filesystems (mac)
+        id: mac_filesystems
+        if: always() && runner.os == 'macOS' && steps.macsetup.outcome == 'success' && env.ACL_PROFILE == 'map'
+        shell: bash
+        run: ci/macos-volumes.sh prepare
+      - name: Prepare generated native filesystems (win)
+        id: win_filesystems
+        if: always() && runner.os == 'Windows' && steps.setup.outcome == 'success' && env.ACL_PROFILE == 'map'
+        shell: pwsh
+        run: ./ci/windows-filesystems.ps1 -Stage Prepare
       # Both phases are attempted after a toolchain/identity launcher is ready.
       - name: Standalone native observations (mac)
         id: mac_explore
-        timeout-minutes: 10
+        timeout-minutes: 300
         if: always() && steps.macsetup.outcome == 'success'
         shell: bash
         run: python -u -m ci.lane explore
       - name: Standalone native observations (win)
         id: win_explore
-        timeout-minutes: 10
+        timeout-minutes: 300
         if: always() && steps.setup.outcome == 'success'
         shell: pwsh
         run: ./ci/windows-step.ps1 -Stage explore
@@ -146,12 +156,24 @@ jobs:
         if: always() && steps.setup.outcome == 'success'
         shell: pwsh
         run: ./ci/windows-step.ps1 -Stage collect
+      - name: Cleanup generated native filesystems (mac)
+        id: mac_filesystems_cleanup
+        if: always() && runner.os == 'macOS' && env.ACL_PROFILE == 'map'
+        shell: bash
+        run: ci/macos-volumes.sh cleanup
+      - name: Cleanup generated native filesystems (win)
+        id: win_filesystems_cleanup
+        if: always() && runner.os == 'Windows' && env.ACL_PROFILE == 'map'
+        shell: pwsh
+        run: ./ci/windows-filesystems.ps1 -Stage Cleanup
       - name: Validate, summarize and salvage completed evidence
         if: always()
         env:
           ACL_SETUP_OUTCOME: ${{ runner.os == 'Windows' && steps.setup.outcome || steps.macsetup.outcome }}
+          ACL_FILESYSTEM_SETUP_OUTCOME: ${{ runner.os == 'Windows' && steps.win_filesystems.outcome || steps.mac_filesystems.outcome }}
           ACL_COLLECT_OUTCOME: ${{ runner.os == 'Windows' && steps.win_collect.outcome || steps.mac_collect.outcome }}
           ACL_EXPLORE_OUTCOME: ${{ runner.os == 'Windows' && steps.win_explore.outcome || steps.mac_explore.outcome }}
+          ACL_FILESYSTEM_CLEANUP_OUTCOME: ${{ runner.os == 'Windows' && steps.win_filesystems_cleanup.outcome || steps.mac_filesystems_cleanup.outcome }}
         run: python -m ci.lane finish
       - name: Upload handback even from red jobs
         if: always()

@@ -687,6 +687,16 @@ def extended_path(path):
     if not pathlib.PureWindowsPath(path).is_absolute():raise ValueError('absolute path required')
     return '\\\\?\\'+path
 
+def long_path_evidence(root, leaf):
+    """Describe the exact ordinary and extended spellings before bridge I/O."""
+    relative=str(leaf)
+    ordinary=str(pathlib.PureWindowsPath(str(root))/relative)
+    return dict(component=len(relative),
+                relative_utf16_units=len(relative.encode('utf-16-le'))//2,
+                absolute_utf16_units=len(ordinary.encode('utf-16-le'))//2,
+                ordinary=ordinary,
+                extended=extended_path(ordinary))
+
 def paths(ctx,oracle,name):
     names={'ascii':'file','spaces':'file with spaces','unicode':'雪-δοκιμή','decomposed':'e\u0301','emoji':'file-🧪','long_component':'x'*240}
     if name=='newline':
@@ -697,8 +707,10 @@ def paths(ctx,oracle,name):
         compare(ctx,oracle,a);return
     if name=='long_component':
         # The short relative spelling isolates component length from total length.
-        leaf=pathlib.Path(names[name]);leaf.write_bytes(b'x');compare(ctx,oracle,leaf)
-        ordinary=str(ctx.root/leaf);extended=extended_path(ordinary)
+        leaf=pathlib.Path(names[name]);leaf.write_bytes(b'x')
+        path_info=ctx.record('path-lengths-before-bridge',long_path_evidence(ctx.root,leaf))
+        compare(ctx,oracle,leaf)
+        ordinary=path_info['ordinary'];extended=path_info['extended']
         compare(ctx,oracle,extended)
         ctx.bridge(dict(op='windows.write',path=extended,hex=dacl(oracle,[]).hex(),information=4))
         reference=compare(ctx,oracle,leaf)
