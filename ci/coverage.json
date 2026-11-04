@@ -1,0 +1,3211 @@
+{
+  "darwin": {
+    "darwin.access.append": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.access.read": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.access.write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.000": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.010": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.020": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.030": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.040": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.050": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.060": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.070": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.080": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.090": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.0a0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.0b0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.0c0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.0d0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.0e0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.0f0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.100": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.110": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.120": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.130": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.140": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.150": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.160": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.170": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.180": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.190": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.1a0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.1b0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.1c0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.1d0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.1e0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.1.1f0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.000": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.010": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.020": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.030": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.040": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.050": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.060": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.070": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.080": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.090": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.0a0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.0b0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.0c0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.0d0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.0e0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.0f0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.100": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.110": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.120": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.130": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.140": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.150": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.160": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.170": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.180": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.190": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.1a0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.1b0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.1c0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.1d0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.1e0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ace_flags.2.1f0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.0.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.0.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.1.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.1.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.10000.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.10000.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.20000.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.acl_flags.20000.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.20001.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.20001.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.30000.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.acl_flags.30000.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.attr_buffer.128": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.attr_buffer.24": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.attr_buffer.28": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.attr_buffer.3148": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.attr_buffer.32": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.attr_buffer.4": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.attr_buffer.44": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.attr_buffer.68": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.chmod.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.chmod.600": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.chmod.644": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.chmod.700": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.chmod.755": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.chmod.777": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.contract.baseline": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.contract.borrowed_handle": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.contract.empty": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.contract.fd_or_handle_permissions": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.contract.invalid_handle": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.contract.invalid_paths": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.contract.null_or_remove": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.contract.permission_denied_lookup": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.count.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.count.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.count.127": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.count.128": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.count.129": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.count.16": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.count.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.count.64": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.000": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.020": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.040": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.060": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.inheritance.1.080": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.0a0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.0c0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.0e0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.100": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.120": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.140": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.160": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.180": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.1a0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.1c0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.1.1e0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.000": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.020": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.040": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.060": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.080": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.0a0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.0c0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.0e0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.100": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.120": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.140": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.160": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.180": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.1a0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.1c0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.inheritance.2.1e0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.libc.absent_empty_nonempty": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.model.bounded_malformed": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.model.seeded_valid": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.ordering.012": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ordering.021": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ordering.102": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ordering.120": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ordering.201": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.ordering.210": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.ascii": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.dangling_symlink": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.decomposed": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.directory_symlink": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.emoji": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.fifo_nofollow": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.hardlink": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.path.intermediate_symlink": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.long_component": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.newline": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.relative": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.rename_handle": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.path.spaces": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.symlink_follow": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.path.symlink_nofollow": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.path.unicode": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.principal.current_group": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.principal.current_user": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.principal.everyone": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.principal.random": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.principal.unknown_user": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.principal.zero": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.append": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.chown": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.delete": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.delete_child": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.generic_all": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.generic_execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.generic_read": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.generic_write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.read_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.read_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.read_security": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.read_xattr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.synchronize": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.write_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.write_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.write_security": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.1.write_xattr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.append": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.chown": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.delete": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.delete_child": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.generic_all": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.generic_execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.generic_read": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.generic_write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.read_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.read_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.read_security": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.read_xattr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.synchronize": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.write_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.write_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.write_security": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.dir.2.write_xattr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.append": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.chown": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.delete": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.delete_child": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.generic_all": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.generic_execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.generic_read": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.generic_write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.read_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.read_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "darwin.rights.file.1.read_security": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.read_xattr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.synchronize": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.write_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.write_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.write_security": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.1.write_xattr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.append": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.chown": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.delete": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.delete_child": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.generic_all": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.generic_execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.generic_read": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.generic_write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.read_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.read_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.read_security": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.read_xattr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.synchronize": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.write_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.write_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.write_security": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.rights.file.2.write_xattr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.stress.invalid_handles": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.stress.read_handles": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.stress.read_write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "darwin.stress.serialize": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    }
+  },
+  "windows": {
+    "windows.access.allow.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.allow.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.allow.20": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.allow.4": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.allow.80": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.allow_then_deny.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.allow_then_deny.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.allow_then_deny.20": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.allow_then_deny.4": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.allow_then_deny.80": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.deny.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.deny.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.deny.20": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.deny.4": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.deny.80": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.deny_then_allow.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.access.deny_then_allow.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.deny_then_allow.20": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.deny_then_allow.4": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.deny_then_allow.80": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.empty.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.access.empty.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.empty.20": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.empty.4": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.empty.80": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.null.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.access.null.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.null.20": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.null.4": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.access.null.80": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.10": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.11": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.12": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.13": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.14": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.15": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.16": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.17": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.18": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.19": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.20": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.21": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.254": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.3": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.5": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.6": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.7": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.8": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_binary.9": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.00": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.01": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.02": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.03": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.04": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.05": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.06": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.07": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.08": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.09": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.0a": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.0b": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.0c": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.0d": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.0e": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.0f": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.10": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.11": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.12": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.13": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.14": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.15": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.16": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.17": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.18": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.19": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.1a": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.1b": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.1c": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.1d": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.1e": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.0.1f": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.00": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.01": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.02": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.03": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.04": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.05": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.06": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.07": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.08": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.09": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.0a": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.0b": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.0c": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.0d": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.0e": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.0f": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.10": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.11": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.12": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.13": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.14": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.15": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.16": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.17": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.18": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.19": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.1a": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.1b": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.1c": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.1d": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.1e": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.ace_flags.1.1f": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.acl_limit.32768": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.acl_limit.4096": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.acl_limit.65528": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.acl_limit.65532": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.contract.baseline": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.contract.borrowed_handle": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.contract.empty": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.contract.fd_or_handle_permissions": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.contract.invalid_handle": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.contract.invalid_paths": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.contract.null_or_remove": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.count.2.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.2.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.2.128": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.2.16": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.2.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.2.512": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.4.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.4.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.4.128": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.4.16": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.4.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.count.4.512": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.10.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.11.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.11.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.11.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.11.3": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.12.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.12.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.12.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.12.3": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.5.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.5.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.5.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.5.3": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.6.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.6.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.6.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.6.3": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.extended_ace_write.9.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.00": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.01": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.02": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.03": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.inheritance.04": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.05": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.06": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.07": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.08": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.09": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.0a": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.0b": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.0c": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.0d": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.0e": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.inheritance.0f": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.model.bounded_malformed": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.model.seeded_valid": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.multiuser.account_cleanup_recovery": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.alice_process_identity": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.allow_group_member": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.allow_group_nonmember": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.bob_process_identity": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.carol_process_identity": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.child_delete_right": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.creator_group_inheritance": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.creator_owner_inheritance": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.delegated_read_control": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.delegated_write_dac_borrowed": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.delegated_write_dac_path": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.deny_group_overrides_allow_group": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.deny_group_overrides_user_allow": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.deny_only_group_allow_ignored": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.deny_only_group_deny_applies": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.existing_token_membership_snapshot": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.explicit_user_allow_read": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.explicit_user_deny_read": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.fresh_logon_membership_add": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.fresh_logon_membership_remove": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.hardlink_descriptor_identity": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.identities": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.low_integrity_no_execute_up": {
+      "accounts": true,
+      "privileged": true,
+      "smoke": false
+    },
+    "windows.multiuser.low_integrity_no_read_up": {
+      "accounts": true,
+      "privileged": true,
+      "smoke": false
+    },
+    "windows.multiuser.low_integrity_no_write_up": {
+      "accounts": true,
+      "privileged": true,
+      "smoke": false
+    },
+    "windows.multiuser.owner_group_update_isolation": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.owner_implicit_read_control": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.owner_implicit_write_dac": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.owner_rights_deny_read_control": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.owner_rights_deny_write_dac": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.parent_delete_child": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.restricted_sid_double_check": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.traverse_with_change_notify": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.traverse_without_change_notify": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.multiuser.unrelated_user_denied": {
+      "accounts": true,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.ascii": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.dangling_symlink": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.decomposed": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.directory_symlink": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.emoji": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.extended_length": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.hardlink": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.path.intermediate_symlink": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.long_component": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.newline": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.relative": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.rename_handle": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.path.spaces": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.symlink_follow": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.path.symlink_nofollow": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.path.unicode": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.propagation.existing_children": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.propagation.grandchildren": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.propagation.protected_child": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.propagation.unprotect_child": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.10": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.100": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.11": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.14": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.17": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.20": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.3": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.4": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.40": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.5": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.6": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.query.7": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.query.80": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.all_file": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.append": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.delete": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.delete_child": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.generic_all": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.generic_execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.generic_read": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.generic_write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.read_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.read_control": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.read_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.read_ea": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.synchronize": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.write_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.write_dac": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.write_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.write_ea": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.write_owner": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.0.zero": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.all_file": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.append": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.delete": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.delete_child": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.generic_all": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.generic_execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.generic_read": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.generic_write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.read_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.read_control": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.read_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.read_ea": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.synchronize": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.write_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.write_dac": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.write_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.write_ea": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.write_owner": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.dir.1.zero": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.all_file": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.append": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.delete": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.delete_child": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.generic_all": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.generic_execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.generic_read": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.generic_write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.read_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.read_control": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.read_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.rights.file.0.read_ea": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.synchronize": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.write_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.write_dac": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.write_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.write_ea": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.write_owner": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.0.zero": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.all_file": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.append": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.delete": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.delete_child": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.generic_all": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.generic_execute": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.generic_read": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.generic_write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.read_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.read_control": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.read_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.read_ea": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.synchronize": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.write_attr": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.write_dac": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.write_data": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.write_ea": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.write_owner": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.rights.file.1.zero": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sacl.audit_40": {
+      "accounts": false,
+      "privileged": true,
+      "smoke": false
+    },
+    "windows.sacl.audit_80": {
+      "accounts": false,
+      "privileged": true,
+      "smoke": false
+    },
+    "windows.sacl.audit_c0": {
+      "accounts": false,
+      "privileged": true,
+      "smoke": false
+    },
+    "windows.sacl.audit_dacl_isolation": {
+      "accounts": false,
+      "privileged": true,
+      "smoke": false
+    },
+    "windows.sacl.label_read": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sacl.label_write_low": {
+      "accounts": false,
+      "privileged": true,
+      "smoke": false
+    },
+    "windows.sacl.no_enabled_privilege": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.sacl.pure_read_handles": {
+      "accounts": false,
+      "privileged": true,
+      "smoke": false
+    },
+    "windows.sacl.query_backup": {
+      "accounts": false,
+      "privileged": true,
+      "smoke": false
+    },
+    "windows.sddl.audit": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sddl.basic": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sddl.conditional": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.sddl.empty": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.sddl.inheritance": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sddl.invalid": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sddl.label": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sddl.null": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sddl.object_guid": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.sddl.owner_group": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sddl.protected": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sddl.two_guids": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.0.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.0.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.0.15": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.0.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.0.8": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.1.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.1.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.1.15": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.1.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.1.8": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.16.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.16.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.16.15": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.16.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.16.8": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.281474976710655.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.281474976710655.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.281474976710655.15": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.281474976710655.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.281474976710655.8": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.4294967301.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.4294967301.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.4294967301.15": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.4294967301.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.4294967301.8": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.5.0": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.5.1": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.5.15": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.5.2": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.sid.5.8": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.stress.invalid_handles": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.stress.noop": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.stress.read_handles": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.stress.read_write": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.stress.serialize": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.update.absent_dacl": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.update.audit_in_dacl": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.update.dacl": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.update.delegated_write_only": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.update.group": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.update.null_guard": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.update.owner": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.update.preserve": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.update.protect": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": true
+    },
+    "windows.update.unprotect": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    },
+    "windows.update.unqueried_guard": {
+      "accounts": false,
+      "privileged": false,
+      "smoke": false
+    }
+  }
+}

@@ -1,0 +1,12 @@
+ci-out/
+.ci-local/
+.ci-reference/
+.ci-cache/
+.toolchains/
+__pycache__/
+*.py[cod]
+results/
+handbacks/
+.env
+env.sh
+build/
