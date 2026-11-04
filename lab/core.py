@@ -113,6 +113,11 @@ def safe_remove_tree(path):
         else: path.unlink()
         return
     if path.is_dir():
+        # Experiments may leave the directory itself unsearchable (mode 0).
+        # Restore owner access so the fixture can be torn down; a failure to
+        # do so still raises below.
+        try: os.chmod(path, 0o700)
+        except OSError: pass
         for child in path.iterdir(): safe_remove_tree(child)
         path.rmdir()
     else:

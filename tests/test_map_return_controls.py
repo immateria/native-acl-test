@@ -1,5 +1,6 @@
 """Portable regressions for run 41864149171. Native outcomes require a native runner."""
 import json
+import os
 from contextlib import contextmanager
 from pathlib import Path
 import tempfile
@@ -134,3 +135,46 @@ class WorkerWiringTests(unittest.TestCase):
             result,errors=evidence.validate_behavior(root/'behavior','windows','windows-filtered')
             self.assertEqual(result['rows'],1);self.assertEqual(result['domains']['test']['counts']['error'],1)
             self.assertTrue(errors);self.assertFalse(any('contradict' in e or 'do not match' in e for e in errors))
+
+
+class DarwinTeardownTests(unittest.TestCase):
+    def test_safe_remove_tree_restores_owner_access_to_mode_zero_directories(self):
+        from lab import core
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "fixture"
+            (root / "child").mkdir(parents=True)
+            (root / "child" / "file").write_bytes(b"x")
+            os.chmod(root / "child", 0)
+            os.chmod(root, 0)
+            core.safe_remove_tree(root)
+            self.assertFalse(root.exists())
+
+    def test_mode_zero_fixture_cleanup_keeps_native_observation_status(self):
+        from lab import darwin_behavior
+        emitted = []
+        writer = Mock()
+        writer.domain = "mode-access"
+        writer.emit = lambda key, status, details: emitted.append((key, status, details))
+
+        def probe(root):
+            target = root / "target"
+            target.mkdir()
+            os.chmod(target, 0)
+            raise OSError(13, "simulated denied operation")
+
+        with tempfile.TemporaryDirectory() as temporary:
+            darwin_behavior._emit_case(writer, Mock(), temporary, "k1", probe)
+        key, status, details = emitted[0]
+        self.assertEqual((key, status), ("k1", "observe"))
+        self.assertNotIn("cleanup_error", details)
+
+    def test_xattr_helpers_round_trip(self):
+        from lab import darwin_behavior
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "file"
+            path.write_bytes(b"x")
+            try:
+                darwin_behavior._setxattr(path, "com.openai.native-acl-test", b"payload")
+            except OSError as exc:
+                self.skipTest(f"filesystem lacks user extended attributes: {exc}")
+            self.assertEqual(darwin_behavior._getxattr(path, "com.openai.native-acl-test"), b"payload")

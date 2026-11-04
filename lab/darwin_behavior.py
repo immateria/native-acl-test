@@ -1,4 +1,5 @@
 """Darwin ACL behavior mapping against libSystem and filesystem operations."""
+import ctypes
 import errno
 import os
 import pathlib
@@ -16,6 +17,50 @@ from .native import NativeFailure, SkipCase
 
 NOBODY = str(uuid.UUID(bytes=bytes.fromhex("abcdefabcdefabcdefabcdef") + bytes.fromhex("fffffffe")))
 EVERYONE = str(uuid.UUID(bytes=bytes.fromhex("abcdefabcdefabcdefabcdef") + bytes.fromhex("0000000c")))
+
+
+def _libc():
+    return ctypes.CDLL(None, use_errno=True)
+
+
+def _setxattr(path, name, value):
+    # Python 3.14 removed os.setxattr on macOS; call libSystem directly.
+    if hasattr(os, "setxattr"):
+        os.setxattr(path, name, value)
+        return
+    if _libc().setxattr(os.fsencode(path), os.fsencode(name), value, len(value), 0, 0) != 0:
+        raise OSError(ctypes.get_errno(), "setxattr", os.fspath(path))
+
+
+def _getxattr(path, name):
+    if hasattr(os, "getxattr"):
+        return os.getxattr(path, name)
+    buffer = ctypes.create_string_buffer(256)
+    size = _libc().getxattr(os.fsencode(path), os.fsencode(name), buffer, len(buffer), 0, 0)
+    if size < 0:
+        raise OSError(ctypes.get_errno(), "getxattr", os.fspath(path))
+    return buffer.raw[:size]
+
+
+def _restore_tree(oracle, path):
+    # Undo experiment mutations (deny ACLs, mode 0) so the fixture can be
+    # deleted. Best effort: any leak is still reported by the generic remover.
+    if os.path.islink(path):
+        return
+    try:
+        oracle.write(path, wire.darwin_export([], 0x20000))
+    except Exception:
+        pass
+    try:
+        os.chmod(path, 0o700)
+    except OSError:
+        pass
+    try:
+        children = list(os.scandir(path))
+    except OSError:
+        return
+    for entry in children:
+        _restore_tree(oracle, pathlib.Path(entry.path))
 
 
 def right_mask(name):
@@ -142,6 +187,7 @@ def _emit_case(writer, oracle, workspace, key, function):
     except BaseException as exc:
         status, details = "error", {"exception": repr(exc), "traceback": traceback.format_exc()}
     try:
+        _restore_tree(oracle, root)
         core.safe_remove_tree(root)
     except BaseException as exc:
         status = "error"
@@ -275,10 +321,10 @@ def _operation(oracle, obj, operation, path, root, requested_acl):
             os.utime(path, (now, now))
             return {"mtime_ns": os.stat(path).st_mtime_ns}
         if operation == "getxattr":
-            return {"value": os.getxattr(path, "com.openai.native-acl-test").hex()}
+            return {"value": _getxattr(path, "com.openai.native-acl-test").hex()}
         if operation == "setxattr":
-            os.setxattr(path, "com.openai.native-acl-test", b"changed")
-            return {"value": os.getxattr(path, "com.openai.native-acl-test").hex()}
+            _setxattr(path, "com.openai.native-acl-test", b"changed")
+            return {"value": _getxattr(path, "com.openai.native-acl-test").hex()}
         if operation == "acl-read":
             return oracle.read(path)
         if operation == "acl-write":
@@ -322,7 +368,7 @@ def _mode_access(oracle, key, root):
         if operation == "execute":
             path.write_text("#!/bin/sh\nprintf mapped\\n", encoding="utf-8")
         try:
-            os.setxattr(path, "com.openai.native-acl-test", b"initial")
+            _setxattr(path, "com.openai.native-acl-test", b"initial")
         except OSError:
             pass
     else:
@@ -389,10 +435,11 @@ def _filesystem_observation(oracle, candidate, label):
             "entries": sorted(path.name for path in fixture.iterdir()),
         }
         details["xattr"] = _capture(lambda: (
-            os.setxattr(target, "com.openai.native-acl-map", b"value"),
-            os.getxattr(target, "com.openai.native-acl-map").hex(),
+            _setxattr(target, "com.openai.native-acl-map", b"value"),
+            _getxattr(target, "com.openai.native-acl-map").hex(),
         )[1])
     finally:
+        _restore_tree(oracle, fixture)
         core.safe_remove_tree(fixture)
     return details
 
