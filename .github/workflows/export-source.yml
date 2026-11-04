@@ -1,0 +1,25 @@
+name: Export checkpoint source
+
+on:
+  push:
+    branches:
+      - checkpoint-8-native-return
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Archive exact commit tree
+        run: git archive --format=zip --output=native-acl-test-source.zip HEAD
+      - name: Upload source archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-acl-test-source-${{ github.sha }}
+          path: native-acl-test-source.zip
+          if-no-files-found: error
+          retention-days: 1
