@@ -1,0 +1,37 @@
+name: temporary-source-export
+
+on:
+  push:
+    branches:
+      - agent/source-export-8d4d03c-20261104
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Export exact checkpoint 7 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e 8d4d03c0edd7c3f1350411f28c13a458f439134f^{commit}
+          git archive --format=zip --prefix=native-acl-test-0.0.7/ \
+            --output=native-acl-test-0.0.7-source.zip \
+            8d4d03c0edd7c3f1350411f28c13a458f439134f
+          sha256sum native-acl-test-0.0.7-source.zip > native-acl-test-0.0.7-source.zip.sha256
+          unzip -tq native-acl-test-0.0.7-source.zip
+      - name: Upload source archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-acl-test-0.0.7-source
+          path: |
+            native-acl-test-0.0.7-source.zip
+            native-acl-test-0.0.7-source.zip.sha256
+          if-no-files-found: error
+          retention-days: 1
